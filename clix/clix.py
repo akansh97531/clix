@@ -46,7 +46,8 @@ if sys.platform == 'linux' or sys.platform == 'linux2':
     curros = 'linux'
 elif sys.platform == 'win32':
     curros = 'win'
-
+elif sys.platform == 'darwin':
+    curros = 'darwin'
 
 # Collect events until released
 class ThreadedKeyBind(threading.Thread):
@@ -65,7 +66,8 @@ class ThreadedKeyBind(threading.Thread):
         """
         global prev_Key, key_binding
         if (key == keyboard.Key.space and
-                prev_Key == keyboard.Key.ctrl_l):
+                (prev_Key == keyboard.Key.ctrl or
+                prev_Key == keyboard.Key.cmd ) ):
             if utils.active == 1:
                 utils.active = 0
             elif utils.active == 0:
@@ -75,13 +77,19 @@ class ThreadedKeyBind(threading.Thread):
         elif (( (pprint.pformat(key) == "'c'" or
                 pprint.pformat(key) == "u'c'") and
                 prev_Key == keyboard.Key.ctrl) or
-                pprint.pformat(key) == "'\\x03'"):
+                pprint.pformat(key) == "'\\x03'" or
+                pprint.pformat(key) == "'\\xe7'" or
+                pprint.pformat(key) == "u'\\xe7'"):
             try:
-                if curros == "linux":
-                    self.text = xerox.paste()
-                else:
+                if curros == "win":
                     time.sleep(.2)
                     self.text = utils.root.clipboard_get()
+                elif curros == "linux":
+                    self.text = xerox.paste()
+                else :
+                    time.sleep(.2)
+                    self.text = utils.root.clipboard_get().encode('utf-8')
+
             except:
                 self.text = ""
 
@@ -96,7 +104,9 @@ class ThreadedKeyBind(threading.Thread):
         elif (( (pprint.pformat(key) == "'z'" or
                 pprint.pformat(key) == "u'z'") and
                 prev_Key == keyboard.Key.ctrl) or
-                pprint.pformat(key) == "'\\x1a'"):
+                pprint.pformat(key) == "'\\x1a'" or
+                pprint.pformat(key) == "'\\u03a9'" or
+                pprint.pformat(key) == "u'\\u03a9'"):
             utils.root.destroy()
             self.stop()
 

@@ -34,15 +34,20 @@ class clipboard():
         self.position_window()
 
         # when 'X' button is clicked
-        self.root.protocol('WM_DELETE_WINDOW', self.q)
+        # self.root.protocol('WM_DELETE_WINDOW', self.q)
 
         try:
-            img = PhotoImage(file=os.path.join(os.path.dirname(__file__),
-                             "icon.png"))
-            self.root.tk.call('wm', 'iconphoto', self.root._w, img)
+            try:
+                img = PhotoImage(file=os.path.join(os.path.dirname(__file__),
+                                                   "icon.png"))
+                self.root.tk.call('wm', 'iconphoto', self.root._w, img)
+            except:
+                img = PhotoImage(file=os.path.join(os.path.dirname(__file__),
+                                                   "icon.ico"))
+                self.root.tk.call('wm', 'iconphoto', self.root._w, img)
         except:
             img = PhotoImage(file=os.path.join(os.path.dirname(__file__),
-                             "icon.ico"))
+                                               "icon.gif"))
             self.root.tk.call('wm', 'iconphoto', self.root._w, img)
 
         # add Menubar
@@ -114,19 +119,21 @@ class clipboard():
         for clip, i in zip(reversed(utils.clips), range(len(utils.clips))):
 
             frame = Frame(self.mainFrame, padx=5,
-                          pady=5, bg=self.colors[i % 3])
+                          pady=5, bg=self.colors[i % 3], width=300)
 
             Button(frame, text="clip it ", font="Helvetica 12 bold",
                    command=partial(self.copy_to_clipboard, i), relief=RAISED,
-                   padx=3, pady=3, bg='dark violet', fg='white').grid(
-                       row=0, column=0, ipady=2
+                   padx=3, pady=3, highlightbackground='dark violet',bg='dark violet',
+                   fg='white',width= 8).grid(
+                                    row=0, column=0, ipady=2
                    )
 
             Button(frame, text="delete", font="Helvetica 12 bold",
                    command=partial(self.delete_frame, len(utils.clips)-i-1),
                    relief=RAISED,
-                   padx=3, pady=3, bg='red', fg='white').grid(
-                       row=1, column=0, ipady=2
+                   padx=3, pady=3, highlightbackground='red',bg='red',
+                   fg='white',width=8).grid(
+                                    row=1, column=0, ipady=2
                    )
 
             textBox = ScrolledText(frame, height=4, width=20,
