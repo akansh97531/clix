@@ -123,16 +123,17 @@ class clipboard():
 
             Button(frame, text="clip it ", font="Helvetica 12 bold",
                    command=partial(self.copy_to_clipboard, i), relief=RAISED,
-                   padx=3, pady=3, highlightbackground='dark violet',bg='dark violet',
-                   fg='white',width= 8).grid(
+                   padx=3, pady=3, highlightbackground='dark violet',
+                   bg='dark violet',
+                   fg='white', width=8).grid(
                                     row=0, column=0, ipady=2
                    )
 
             Button(frame, text="delete", font="Helvetica 12 bold",
                    command=partial(self.delete_frame, len(utils.clips)-i-1),
                    relief=RAISED,
-                   padx=3, pady=3, highlightbackground='red',bg='red',
-                   fg='white',width=8).grid(
+                   padx=3, pady=3, highlightbackground='red', bg='red',
+                   fg='white', width=8).grid(
                                     row=1, column=0, ipady=2
                    )
 

@@ -49,6 +49,7 @@ elif sys.platform == 'win32':
 elif sys.platform == 'darwin':
     curros = 'darwin'
 
+
 # Collect events until released
 class ThreadedKeyBind(threading.Thread):
     def __init__(self):
@@ -66,15 +67,15 @@ class ThreadedKeyBind(threading.Thread):
         """
         global prev_Key, key_binding
         if (key == keyboard.Key.space and
-                (prev_Key == keyboard.Key.ctrl or
-                prev_Key == keyboard.Key.cmd ) ):
+            (prev_Key == keyboard.Key.ctrl or
+                prev_Key == keyboard.Key.cmd)):
             if utils.active == 1:
                 utils.active = 0
             elif utils.active == 0:
                 utils.active = 1
             prev_Key = None
 
-        elif (( (pprint.pformat(key) == "'c'" or
+        elif (((pprint.pformat(key) == "'c'" or
                 pprint.pformat(key) == "u'c'") and
                 prev_Key == keyboard.Key.ctrl) or
                 pprint.pformat(key) == "'\\x03'" or
@@ -86,7 +87,7 @@ class ThreadedKeyBind(threading.Thread):
                     self.text = utils.root.clipboard_get()
                 elif curros == "linux":
                     self.text = xerox.paste()
-                else :
+                else:
                     time.sleep(.2)
                     self.text = utils.root.clipboard_get().encode('utf-8')
 
@@ -101,7 +102,7 @@ class ThreadedKeyBind(threading.Thread):
 
             print("You just copied: {}".format(self.text))
 
-        elif (( (pprint.pformat(key) == "'z'" or
+        elif (((pprint.pformat(key) == "'z'" or
                 pprint.pformat(key) == "u'z'") and
                 prev_Key == keyboard.Key.ctrl) or
                 pprint.pformat(key) == "'\\x1a'" or
